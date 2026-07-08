@@ -19,8 +19,15 @@ export const NAV_LINKS: { label: string; href: string }[] = [
 
 export const RESUME_HREF = '/resume.pdf';
 
+/**
+ * Resume links stay hidden until `public/resume.pdf` is added (the file is not
+ * committed). After dropping the PDF in `public/`, flip this to `true`.
+ */
+export const RESUME_AVAILABLE = false;
+
 export const CONTACT_LINKS: { label: string; href: string }[] = [
-  { label: 'Email', href: 'mailto:you@example.com' },
-  { label: 'GitHub', href: 'https://github.com/your-username' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/your-handle' },
+  { label: 'Email', href: 'mailto:linziqi1229@outlook.com' },
+  { label: 'GitHub', href: 'https://github.com/Ariosolzq' },
+  // LinkedIn intentionally omitted until the final public URL is confirmed.
+  // (CV lists linkedin.com/in/ziqi-lin-lzq — add it back here to publish it.)
 ];

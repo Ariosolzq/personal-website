@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { POSITIONING, CONTACT_LINKS, RESUME_HREF } from '../consts';
+import { POSITIONING, CONTACT_LINKS, RESUME_HREF, RESUME_AVAILABLE } from '../consts';
 
 const focusAreas = [
   'AI-assisted workflow automation',
@@ -80,10 +80,7 @@ const skills: { group: string; items: string[] }[] = [
 
       <div class="prose" style="margin-top:var(--sp-6)">
         <h2>Contact</h2>
-        <p>
-          The links below are placeholders — update them in
-          <code>src/consts.ts</code>.
-        </p>
+        <p>Reach me through the links below.</p>
         <ul>
           {
             CONTACT_LINKS.map((link) => (
@@ -92,9 +89,13 @@ const skills: { group: string; items: string[] }[] = [
               </li>
             ))
           }
-          <li>
-            <a href={RESUME_HREF}>Resume (PDF)</a>
-          </li>
+          {
+            RESUME_AVAILABLE && (
+              <li>
+                <a href={RESUME_HREF}>Resume (PDF)</a>
+              </li>
+            )
+          }
         </ul>
       </div>
     </div>

@@ -100,8 +100,9 @@ routes are generated automatically — no page code to touch.
 
 ### Resume
 
-Drop your resume at `public/resume.pdf`. The "Resume" nav button already links to it.
-See `public/README.md`.
+Drop your resume at `public/resume.pdf`, then set `RESUME_AVAILABLE = true` in
+`src/consts.ts`. The Resume links (nav, home hero, About) stay hidden until you do, so there's
+no public 404. See `public/README.md`.
 
 ## Deploying to Vercel
 

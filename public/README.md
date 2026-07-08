@@ -5,16 +5,20 @@ Anything in this folder is served from the site root, unprocessed. For example,
 
 ## Add your resume
 
-The "Resume" button in the navigation links to `/resume.pdf`.
+The Resume links are currently **hidden** because this file does not exist yet.
 
-To make it work, place your resume file here as:
+To enable them:
 
-```
-public/resume.pdf
-```
+1. Place your resume here as:
 
-That's it — no code changes needed. The link (`RESUME_HREF` in `src/consts.ts`) already
-points at `/resume.pdf`. Until you add the file, the button will 404, which is expected.
+   ```
+   public/resume.pdf
+   ```
+
+2. In `src/consts.ts`, set `RESUME_AVAILABLE = true`.
+
+The Resume links (nav, home hero, About) all read that flag and will reappear pointing at
+`/resume.pdf` (`RESUME_HREF`). Keeping them hidden until the file exists avoids a public 404.
 
 > Do not commit a resume that contains information you don't want public. This site is a
 > public, static deployment.

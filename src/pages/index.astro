@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ContentCard from '../components/ContentCard.astro';
-import { POSITIONING, RESUME_HREF } from '../consts';
+import { POSITIONING, RESUME_HREF, RESUME_AVAILABLE } from '../consts';
 
 const projects = (await getCollection('projects')).sort(
   (a, b) => a.data.order - b.data.order,
@@ -32,7 +32,7 @@ const latestNotes = notes.slice(0, 3);
       <div class="hero__actions">
         <a class="btn btn--primary" href="/projects">View projects</a>
         <a class="btn btn--ghost" href="/about">About me</a>
-        <a class="btn btn--ghost" href={RESUME_HREF}>Resume</a>
+        {RESUME_AVAILABLE && <a class="btn btn--ghost" href={RESUME_HREF}>Resume</a>}
       </div>
     </div>
   </section>

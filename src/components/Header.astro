@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, NAV_LINKS, RESUME_HREF } from '../consts';
+import { SITE_TITLE, NAV_LINKS, RESUME_HREF, RESUME_AVAILABLE } from '../consts';
 
 // Highlight the active section (matches the top-level path segment).
 const path = Astro.url.pathname;
@@ -43,7 +43,7 @@ const isActive = (href: string) =>
         }
       </ul>
       <div class="nav__actions">
-        <a class="btn btn--ghost" href={RESUME_HREF}>Resume</a>
+        {RESUME_AVAILABLE && <a class="btn btn--ghost" href={RESUME_HREF}>Resume</a>}
         <button
           class="theme-toggle"
           type="button"
