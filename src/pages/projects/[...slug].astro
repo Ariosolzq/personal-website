@@ -1,0 +1,43 @@
+---
+import { getCollection, render } from 'astro:content';
+import EntryLayout from '../../layouts/EntryLayout.astro';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+  const projects = await getCollection('projects');
+  return projects.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, status, tags, techStack, updated, demoUrl, mermaid } =
+  entry.data;
+---
+
+<EntryLayout
+  title={title}
+  description={summary}
+  eyebrow="Project"
+  backHref="/projects"
+  backLabel="All projects"
+  status={status}
+  tags={tags}
+  date={updated}
+  demoUrl={demoUrl}
+  mermaid={mermaid}
+>
+  {
+    techStack.length > 0 && (
+      <div class="meta-grid">
+        <div class="meta-grid__item">
+          <p class="meta-grid__label">Tech stack</p>
+          <p style="margin:0">{techStack.join(' · ')}</p>
+        </div>
+      </div>
+    )
+  }
+  <Content />
+</EntryLayout>

@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ContentCard from '../components/ContentCard.astro';
+import { POSITIONING, RESUME_HREF } from '../consts';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const featuredProjects = projects.filter((p) => p.data.featured).slice(0, 3);
+const homeProjects = featuredProjects.length ? featuredProjects : projects.slice(0, 3);
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => (b.data.pubDate?.getTime() ?? 0) - (a.data.pubDate?.getTime() ?? 0),
+);
+const latestPosts = posts.slice(0, 3);
+
+const notes = (await getCollection('notes')).sort(
+  (a, b) => (b.data.updated?.getTime() ?? 0) - (a.data.updated?.getTime() ?? 0),
+);
+const latestNotes = notes.slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="container">
+      <p class="hero__eyebrow">AI Systems &middot; Data Engineering</p>
+      <h1 class="hero__title">Reliable AI-assisted systems for real-world workflows</h1>
+      <p class="hero__positioning">{POSITIONING}</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="/projects">View projects</a>
+        <a class="btn btn--ghost" href="/about">About me</a>
+        <a class="btn btn--ghost" href={RESUME_HREF}>Resume</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Selected work"
+        title="Featured projects"
+        description="Case studies in human-in-the-loop AI, workflow automation, and auditable systems."
+        linkHref="/projects"
+        linkLabel="All projects"
+      />
+      <div class="grid grid--cards">
+        {homeProjects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Writing"
+        title="Latest from the blog"
+        description="Longer technical essays and production engineering reflections."
+        linkHref="/blog"
+        linkLabel="All posts"
+      />
+      <div class="grid grid--cards">
+        {
+          latestPosts.map((post) => (
+            <ContentCard
+              href={`/blog/${post.id}`}
+              title={post.data.title}
+              description={post.data.description}
+              tags={post.data.tags}
+              status={post.data.status}
+              date={post.data.pubDate}
+              dateLabel=""
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight" style="padding-bottom:var(--sp-8)">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Notebook"
+        title="Latest notes"
+        description="Shorter learning notes and technical summaries."
+        linkHref="/notes"
+        linkLabel="All notes"
+      />
+      <div class="grid grid--cards">
+        {
+          latestNotes.map((note) => (
+            <ContentCard
+              href={`/notes/${note.id}`}
+              title={note.data.title}
+              description={note.data.description}
+              tags={note.data.tags}
+              status={note.data.status}
+              date={note.data.updated}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

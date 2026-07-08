@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentCard from '../../components/ContentCard.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => (b.data.pubDate?.getTime() ?? 0) - (a.data.pubDate?.getTime() ?? 0),
+);
+---
+
+<BaseLayout
+  title="Blog"
+  description="Longer technical essays and production engineering reflections on reliable AI systems."
+>
+  <div class="page-header">
+    <div class="container">
+      <p class="page-header__eyebrow">Writing</p>
+      <h1>Blog</h1>
+      <p class="lead">
+        Longer technical essays and reflections on building AI systems that hold up in
+        production.
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="grid grid--cards">
+        {
+          posts.map((post) => (
+            <ContentCard
+              href={`/blog/${post.id}`}
+              title={post.data.title}
+              description={post.data.description}
+              tags={post.data.tags}
+              status={post.data.status}
+              date={post.data.pubDate}
+              dateLabel=""
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</BaseLayout>

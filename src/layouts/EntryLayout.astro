@@ -1,0 +1,92 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TagList from '../components/TagList.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import Mermaid from '../components/Mermaid.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  seoDescription?: string;
+  eyebrow?: string;
+  backHref: string;
+  backLabel: string;
+  status?: 'draft' | 'published';
+  tags?: string[];
+  date?: Date;
+  dateLabel?: string;
+  /** Optional external live-demo URL rendered as a prominent button. */
+  demoUrl?: string;
+  /** Load the Mermaid client runtime (architecture pages / diagram projects). */
+  mermaid?: boolean;
+}
+
+const {
+  title,
+  description,
+  seoDescription,
+  eyebrow,
+  backHref,
+  backLabel,
+  status,
+  tags = [],
+  date,
+  dateLabel = 'Updated',
+  demoUrl,
+  mermaid = false,
+} = Astro.props;
+
+const formattedDate = date
+  ? date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : null;
+---
+
+<BaseLayout title={title} description={seoDescription ?? description}>
+  <div class="page-header">
+    <div class="container">
+      <a class="back-link" href={backHref}>&larr; {backLabel}</a>
+      {eyebrow && <p class="page-header__eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      {description && <p class="lead">{description}</p>}
+      <div
+        class="card__meta"
+        style="justify-content:flex-start;flex-wrap:wrap;margin-top:1.25rem;margin-bottom:0"
+      >
+        {status && <StatusBadge status={status} />}
+        {formattedDate && <span class="card__date">{dateLabel} {formattedDate}</span>}
+        <TagList tags={tags} />
+      </div>
+      {
+        demoUrl && (
+          <div style="margin-top:1.25rem">
+            <a
+              class="btn btn--primary"
+              href={demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Live Demo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="width:16px;height:16px">
+                <path d="M7 17 17 7M8 7h9v9" />
+              </svg>
+            </a>
+          </div>
+        )
+      }
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <article class="prose">
+        <slot />
+      </article>
+    </div>
+  </div>
+
+  {mermaid && <Mermaid />}
+</BaseLayout>

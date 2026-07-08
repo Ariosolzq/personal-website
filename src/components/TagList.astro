@@ -1,0 +1,22 @@
+---
+interface Props {
+  tags: string[];
+  /** Cap the number rendered; extras are summarized as "+N". */
+  limit?: number;
+}
+
+const { tags, limit } = Astro.props;
+const shown = typeof limit === 'number' ? tags.slice(0, limit) : tags;
+const extra = tags.length - shown.length;
+---
+
+{
+  tags.length > 0 && (
+    <ul class="taglist">
+      {shown.map((tag) => (
+        <li class="tag">{tag}</li>
+      ))}
+      {extra > 0 && <li class="tag">+{extra}</li>}
+    </ul>
+  )
+}

@@ -1,0 +1,33 @@
+---
+/*
+  Initializes Mermaid on the client. The rehype plugin in astro.config.mjs turns
+  fenced ```mermaid code blocks into `<pre class="mermaid">`, which this runtime
+  picks up and draws. Diagrams live inside a `.diagram` light canvas (see
+  global.css), so the "neutral" theme reads well in both light and dark mode.
+
+  Include this component once on any page that renders Mermaid diagrams.
+*/
+---
+
+<script>
+  import mermaid from 'mermaid';
+
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: 'strict',
+    theme: 'neutral',
+    fontFamily:
+      'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+  });
+
+  const render = () => {
+    const nodes = document.querySelectorAll<HTMLElement>('pre.mermaid');
+    if (nodes.length) mermaid.run({ nodes: Array.from(nodes) });
+  };
+
+  if (document.readyState !== 'loading') {
+    render();
+  } else {
+    document.addEventListener('DOMContentLoaded', render);
+  }
+</script>

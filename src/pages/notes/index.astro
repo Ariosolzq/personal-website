@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentCard from '../../components/ContentCard.astro';
+
+const notes = (await getCollection('notes')).sort(
+  (a, b) => (b.data.updated?.getTime() ?? 0) - (a.data.updated?.getTime() ?? 0),
+);
+---
+
+<BaseLayout
+  title="Notes"
+  description="Shorter learning notes and technical summaries on AI engineering topics."
+>
+  <div class="page-header">
+    <div class="container">
+      <p class="page-header__eyebrow">Notebook</p>
+      <h1>Notes</h1>
+      <p class="lead">
+        Shorter learning notes and technical summaries. Lower polish than the blog — these
+        are working notes I keep as I learn.
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="grid grid--cards">
+        {
+          notes.map((note) => (
+            <ContentCard
+              href={`/notes/${note.id}`}
+              title={note.data.title}
+              description={note.data.description}
+              tags={note.data.tags}
+              status={note.data.status}
+              date={note.data.updated}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</BaseLayout>

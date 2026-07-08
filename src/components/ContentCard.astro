@@ -1,0 +1,56 @@
+---
+import TagList from './TagList.astro';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  tags?: string[];
+  status?: 'draft' | 'published';
+  date?: Date;
+  dateLabel?: string;
+}
+
+const {
+  href,
+  title,
+  description,
+  tags = [],
+  status,
+  date,
+  dateLabel = 'Updated',
+} = Astro.props;
+
+const formattedDate = date
+  ? date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+  : null;
+---
+
+<article class="card">
+  {
+    status && (
+      <div class="card__meta">
+        <span class="card__date">
+          {formattedDate ? `${dateLabel} ${formattedDate}` : ''}
+        </span>
+        <StatusBadge status={status} />
+      </div>
+    )
+  }
+  <h3 class="card__title">
+    <a class="card-link" href={href}>{title}</a>
+  </h3>
+  <p class="card__summary">{description}</p>
+  {
+    tags.length > 0 && (
+      <div class="card__footer">
+        <TagList tags={tags} limit={5} />
+      </div>
+    )
+  }
+</article>

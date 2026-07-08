@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentCard from '../../components/ContentCard.astro';
+
+const entries = (await getCollection('architecture')).sort(
+  (a, b) => (b.data.updated?.getTime() ?? 0) - (a.data.updated?.getTime() ?? 0),
+);
+---
+
+<BaseLayout
+  title="Architecture"
+  description="Architecture diagrams and design explanations for AI-assisted systems."
+>
+  <div class="page-header">
+    <div class="container">
+      <p class="page-header__eyebrow">Design</p>
+      <h1>Architecture</h1>
+      <p class="lead">
+        Diagrams and design writeups for the systems I build — how the pieces fit together
+        and why. All examples are abstracted and sanitized.
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="grid grid--cards">
+        {
+          entries.map((entry) => (
+            <ContentCard
+              href={`/architecture/${entry.id}`}
+              title={entry.data.title}
+              description={entry.data.description}
+              tags={entry.data.tags}
+              status={entry.data.status}
+              date={entry.data.updated}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import TagList from './TagList.astro';
+import StatusBadge from './StatusBadge.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, summary, status, tags, techStack, demoUrl } = project.data;
+const href = `/projects/${project.id}`;
+---
+
+<article class="card">
+  <div class="card__meta">
+    <TagList tags={techStack} limit={4} />
+    <StatusBadge status={status} />
+  </div>
+  <h3 class="card__title">
+    <a class="card-link" href={href}>{title}</a>
+  </h3>
+  <p class="card__summary">{summary}</p>
+  <div class="card__footer">
+    <TagList tags={tags} limit={5} />
+    {
+      demoUrl && (
+        <a
+          class="card__demo-link"
+          href={demoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Live Demo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M7 17 17 7M8 7h9v9" />
+          </svg>
+        </a>
+      )
+    }
+  </div>
+</article>

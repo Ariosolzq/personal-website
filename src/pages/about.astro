@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { POSITIONING, CONTACT_LINKS, RESUME_HREF } from '../consts';
+
+const focusAreas = [
+  'AI-assisted workflow automation',
+  'Human-in-the-loop systems',
+  'Data pipelines',
+  'LLM / VLM application engineering',
+  'Evaluation and reliability',
+  'Healthcare operations systems',
+];
+
+const skills: { group: string; items: string[] }[] = [
+  {
+    group: 'Languages',
+    items: ['Python', 'TypeScript', 'SQL'],
+  },
+  {
+    group: 'AI / ML',
+    items: ['LLM applications', 'VLM / Document AI', 'RAG & retrieval', 'Evaluation'],
+  },
+  {
+    group: 'Workflow & orchestration',
+    items: ['Agentic workflows', 'LangGraph', 'Rule engines', 'Human-in-the-loop review'],
+  },
+  {
+    group: 'Data & infrastructure',
+    items: ['PostgreSQL', 'Data pipelines', 'Cloud (Azure)', 'Static / serverless deploys'],
+  },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="Ziqi Lin — Information Systems graduate and AI / Data Engineering candidate focused on reliable, human-in-the-loop AI systems."
+>
+  <div class="page-header">
+    <div class="container">
+      <p class="page-header__eyebrow">About</p>
+      <h1>About me</h1>
+      <p class="lead">{POSITIONING}</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container" style="max-width:var(--maxw-prose)">
+      <div class="prose">
+        <p>
+          I'm an Information Systems graduate and an AI / Data Engineering candidate. I work on
+          the parts of AI systems that decide whether they can actually be used in production:
+          keeping a human in the loop, making automated suggestions auditable, evaluating
+          quality, and designing for reliability rather than demos.
+        </p>
+        <p>
+          Most of my experience is in healthcare operations — a domain where a wrong answer has
+          real consequences, so systems have to be careful, traceable, and honest about their
+          limits. That constraint shapes how I build: models advise, deterministic rules and
+          people decide, and every step leaves a record.
+        </p>
+
+        <h2>Focus areas</h2>
+        <ul>
+          {focusAreas.map((area) => <li>{area}</li>)}
+        </ul>
+
+        <h2>Skills</h2>
+      </div>
+
+      <div class="meta-grid">
+        {
+          skills.map((skill) => (
+            <div class="meta-grid__item">
+              <p class="meta-grid__label">{skill.group}</p>
+              <p style="margin:0">{skill.items.join(' · ')}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="prose" style="margin-top:var(--sp-6)">
+        <h2>Contact</h2>
+        <p>
+          The links below are placeholders — update them in
+          <code>src/consts.ts</code>.
+        </p>
+        <ul>
+          {
+            CONTACT_LINKS.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+          <li>
+            <a href={RESUME_HREF}>Resume (PDF)</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
